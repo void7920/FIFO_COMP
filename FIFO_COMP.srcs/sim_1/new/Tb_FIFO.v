@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineer: Seok Hoon Choi
 // 
 // Create Date: 2022/01/12 20:28:28
-// Design Name: 
+// Design Name: Testbench First Input First Output Register
 // Module Name: Tb_FIFO
 // Project Name: 
 // Target Devices: 
-// Tool Versions: 
+// Tool Versions: Vivado 2021.2.1
 // Description: 
 // 
 // Dependencies: 
