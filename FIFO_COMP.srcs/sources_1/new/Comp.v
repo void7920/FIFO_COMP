@@ -30,13 +30,13 @@ module Comp #(parameter addrsize = 8)(
     
     output a_emp_n;
     output a_full_n;
-    input [addrsize:0]rptr;
-    input [addrsize:0]wptr;
+    input [addrsize-1:0]rptr;
+    input [addrsize-1:0]wptr;
     input wrst_n;
     
     reg dir;
-    wire dirset_n = ~( (wptr[addrsize] ^ rptr[addrsize-1]) & ~(wptr[addrsize-1] ^ rptr[addrsize]) );
-    wire dirrst_n = ~(( ~(wptr[addrsize] ^ rptr[addrsize-1]) & (wptr[addrsize-1] ^ rptr[addrsize]) ) | ~wrst_n);
+    wire dirset_n = ~( (wptr[addrsize-1] ^ rptr[addrsize-2]) & ~(wptr[addrsize-2] ^ rptr[addrsize]-1) );
+    wire dirrst_n = ~(( ~(wptr[addrsize-1] ^ rptr[addrsize-2]) & (wptr[addrsize-2] ^ rptr[addrsize-1]) ) | ~wrst_n);
     
     assign  a_emp_n = ~((wptr == rptr) && !dir);
     assign  a_full_n = ~((wptr == rptr) && dir);
