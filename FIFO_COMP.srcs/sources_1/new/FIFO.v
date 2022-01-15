@@ -32,7 +32,12 @@ module FIFO #(parameter MSB = 8, parameter addrsize = 8)(
     wd,
     wa,
     rinc,
-    winc
+    winc,
+    
+    rptr,
+    wptr,
+    a_emp_n,
+    a_full_n
     );
     
     output [MSB-1:0]rd;
@@ -48,10 +53,10 @@ module FIFO #(parameter MSB = 8, parameter addrsize = 8)(
     input rinc;
     input winc;
     
-    wire[addrsize:0]rptr;
-    wire[addrsize:0]wptr;
-    wire a_empty_n;
-    wire a_full_n;
+    output [addrsize-1:0]rptr;
+    output [addrsize-1:0]wptr;
+    output a_emp_n;
+    output a_full_n;
     
     Dual_Port_Ram #(MSB, addrsize) Ram(.rd(rd), .clk(wclk), .wd(wd), .ra(ra), .wa(wa), .we(winc));
     
@@ -60,10 +65,10 @@ module FIFO #(parameter MSB = 8, parameter addrsize = 8)(
     Flag_Full FF(.full(full), .clk(wclk), .rst_n(wrst_n), .a_full_n(a_full_n));
     
     //Read pointer & Empty flag logic
-    Address_Pointer #(addrsize) Read_ptr(.addr(ra), . ptr(rptr), .clk(wclk), .rst_n(wrst_n), .state(full), .c(rinc));
+    Address_Pointer #(addrsize) Read_ptr(.addr(ra), . ptr(rptr), .clk(wclk), .rst_n(rrst_n), .state(full), .c(rinc));
     Flag_Empty FE(.empty(empty), .clk(rclk), .a_empty_n(a_empty_n));
     
     //Comparsion logic
-    Comp #(addrsize) Comparsion(.a_emp_n(a_empty_n), .a_full_n(a_full_n), .rptr(), .wptr(), .wrst_n(wrst_n));
+    Comp #(addrsize) Comparsion(.a_emp_n(a_empty_n), .a_full_n(a_full_n), .rptr(rptr), .wptr(wptr), .wrst_n(wrst_n));
     
 endmodule
