@@ -30,15 +30,15 @@ module Address_Pointer #(parameter addrsize = 8)(
     );
     
     output [addrsize-1:0]addr;
-    output reg [addrsize:0]ptr;
+    output reg [addrsize-1:0]ptr;
     input clk;
     input rst_n;
     input state;
     input c;
     
-    reg [addrsize:0]ptr_bin;
-    wire [addrsize:0]ptr_bin_next = ptr_bin + (~state & c);
-    wire [addrsize:0]ptr_gray_next = (ptr_bin_next >> 1) ^ ptr_bin_next;
+    reg [addrsize-1:0]ptr_bin;
+    wire [addrsize-1:0]ptr_bin_next = ptr_bin + (~state & c);
+    wire [addrsize-1:0]ptr_gray_next = (ptr_bin_next >> 1) ^ ptr_bin_next;
     
     assign addr = ptr_bin[addrsize-1:0];
     
