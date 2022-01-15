@@ -36,12 +36,12 @@ module Comp #(parameter addrsize = 8)(
     
     reg dir;
     wire dirset_n = ~( (wptr[addrsize] ^ rptr[addrsize-1]) & ~(wptr[addrsize-1] ^ rptr[addrsize]) );
-    wire dirrst_n = ~( ~(wptr[addrsize] ^ rptr[addrsize-1]) & (wptr[addrsize-1] ^ rptr[addrsize]) ) | ~wrst_n;
+    wire dirrst_n = ~(( ~(wptr[addrsize] ^ rptr[addrsize-1]) & (wptr[addrsize-1] ^ rptr[addrsize]) ) | ~wrst_n);
     
     assign  a_emp_n = ~((wptr == rptr) && !dir);
     assign  a_full_n = ~((wptr == rptr) && dir);
     
-    always@(negedge dirset_n , negedge dirrst_n)
+    always@(negedge dirset_n, negedge dirrst_n)
     begin
         if(!dirrst_n)
             dir <= 0;
